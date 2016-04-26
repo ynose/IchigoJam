@@ -40,7 +40,7 @@
 300 LC X,Y  :?"     "
 310 LC X,Y+1:?" áÉã "
 320 LC X,Y+2:?" çåé "
-340 RETURN
+330 RETURN
 
 'LED Off
 400 LC X,Y  :?"    "; 
