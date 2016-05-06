@@ -40,11 +40,10 @@
 
 'Initialize Screen
 2 CLS:CLV:CLT
-3 LC0,0:?"√›Ω≥:"
-4 FOR I=0 TO 31
-5 LC I,5:?"ë":LC I,21:?"=":LC I,3:?"è"
-6 NEXT
-7 LC 28,21:?"çåé"
+3 FOR I=0 TO 31
+4 LC I,5:?"ë":LC I,21:?"=":LC I,3:?"è"
+5 NEXT
+6 LC 28,21:?"çåé"
 
 'Initialize ADXL345(I2C)
 10 POKE #700,#31,#00:IF I2CW(#53,#700,1,#701,1)?"E"
@@ -88,7 +87,8 @@
 134 M=L:U=T
 
 'Score & Initialize Game
-300 IF SCR(29,20)<>0 S=S+1:LC 4+S,0:?CHR$(255):WAIT 30:LC 29,20:?CHR$(0):GOTO 20
+300 LC0,0:?"√›Ω≥:"
+310 IF SCR(29,20)<>0 S=S+1:LC 4+S,0:?CHR$(255):WAIT 30:LC 29,20:?CHR$(0):GOTO 20
 
 'Time & GameOver
 400 R=TICK()/120
