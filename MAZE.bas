@@ -1,64 +1,48 @@
 ' L, T = BALL Left, Top
 ' M, U = BALL Left, Top old
 
-1 'MAZE
-2 CLS:CLV:CLT
-
-'MAZE
-'S=Start, G=Goal, X=Trap
-10 ?"S"
-11 ?""
-12 ?""
-13 ?""
-14 ?""
-15 ?""
-16 ?""
-17 ?""
-18 ?""
-19 ?""
-20 ?""
-21 ?""
-22 ?"X"
-23 ?""
-24 ?""
-25 ?""
-26 ?""
-27 ?""
-28 ?""
-29 ?""
-30 ?""
-31 ?""
-32 ?""
-33 ?"G"
+1 'Ò²Û¹Þ-Ñ
+10 CLS:CLV:CLT
+20 LC0,0:?"À²Ñ:"
+30 LC0,1
+40 LRUN 1
 
 'Scan Start
-40 FOR L=0 TO 31
-41 FOR T=0 TO 23
-42 IF SCR(L,T)="S" M=L:U=T:GOTO 50
-43 NEXT
-44 NEXT
+100 FOR L=0 TO 31
+110 FOR T=0 TO 23
+120 IF SCR(L,T)=83 M=L:U=T:GOTO 150
+130 NEXT
+140 NEXT
 
 'Initialize ADXL345(I2C)
-50 POKE #700,#31,#00:IF I2CW(#53,#700,1,#701,1)?"E"
-51 POKE #700,#2D,#08:IF I2CW(#53,#700,1,#701,1)?"E"
+150 POKE #700,#31,#00:IF I2CW(#53,#700,1,#701,1)?"E"
+160 POKE #700,#2D,#08:IF I2CW(#53,#700,1,#701,1)?"E"
 
 'Mainloop 
 'Read ADXL345(Adjust Center X+55,Y+93)
-100 POKE #700,#32:IF I2CR(#53,#700,1,#701,6)?"E"
-101 X=PEEK(#702)<<8+PEEK(#701):X=X+55:X=X/10
-102 Y=PEEK(#704)<<8+PEEK(#703):Y=Y+93:Y=Y/10*-1
+170 POKE #700,#32:IF I2CR(#53,#700,1,#701,6)?"E"
+180 X=PEEK(#702)<<8+PEEK(#701):X=X+55:X=X/10
+190 Y=PEEK(#704)<<8+PEEK(#703):Y=Y+93:Y=Y/10*-1
 
 'Scan Wall
-110 IF L+X<L && SCR(L-1,T)=0 L=L-1:WAIT 60-ABS(X)  ' Left
-111 IF L+X>L && SCR(L+1,T)=0 L=L+1:WAIT 60-ABS(X)  ' Right
-112 IF T+Y<T && SCR(L,T-1)=0 T=T-1:WAIT 60-ABS(Y)  ' Top
-113 IF T+Y>T && SCR(L,T+1)=0 T=T+1:WAIT 60-ABS(Y)  ' Down
+200 IF L+X<L && SCR(L-1,T)<>143 L=L-1
+210 IF L+X>L && SCR(L+1,T)<>143 L=L+1
+220 IF T+Y<T && SCR(L,T-1)<>143 T=T-1
+230 IF T+Y>T && SCR(L,T+1)<>143 T=T+1
+240 WAIT 10-ABS(X/2+Y/2)
 
 'Move BALL
-120 IF L<>M||T<>U LC M,U:?" "
-121 IF SCR(L,T)="G" LC 12,12:?"GOAL !!":END
-122 IF SCR(L,T)="X" LC 12,12:?" NG !! ":END
-123 LC L,T:?"O"
-124 M=L:U=T
+250 IF L<>M||T<>U LC M,U:?" ";
+260 IF SCR(L,T)=71 LC 13,11:?" ºÞ-Ù !! ";:GOSUB 320:GOTO 10
+270 IF SCR(L,T)=88 LC 13,12:?" »ÞÝÈÝ ";:GOSUB 320:GOTO 10
+280 LC L,T:?"é";
+290 M=L:U=T
 
-999 WAIT 1:GOTO 100
+'Time
+300 LC 4,0:?TICK()/60;
+
+310 WAIT 1:GOTO 170
+
+'Push to Start
+320 IF IN(1)=1 GOTO 320
+330 RETURN
