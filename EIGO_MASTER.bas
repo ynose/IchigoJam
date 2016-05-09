@@ -1,45 +1,62 @@
+' H   Hole Left
+' I   Loop counter
+' L,T Left, Top
+' V   Level
+' W   Question Word
+
 1 '´²ºÞÏ½À-
-10 CLS:CLV
-20 LC0,0:?"ÚÍÞÙ:"
-25 Y=18
+10 CLV
+20 CLS
 
-30 FOR I=0 TO 31:LC I,6:?"-":LC I,7:?" ":LC I,16:?"-":LC I,19:?"-":NEXT
+'Shuffle Algorithm
+30 FOR I=0 TO 25
+40 [I]=65+I
+50 NEXT
+60 FOR I=25 TO 1 STEP -1
+70 J=RND(I+1):T=[I]:[I]=[J]:[J]=T
+80 NEXT
 
-'SHUFFLE ALGORITHM
-40 FOR I=0 TO 25:LET [I],65+I:NEXT
-50 FOR I=26-1 TO 1 STEP -1
-60 J=RND(I+1):T=[I]:[I]=[J]:[J]=T
-70 NEXT
-
-80 FOR I=0 TO 25
-90 LC3+I,6:?CHR$(65+I)
-100 LC3+I,16:?CHR$([I]);
+'Initialize Screen
+90 FOR I=0 TO 31
+100 LC I,6:?"-":LC I,16:?"-":LC I,19:?"-"
 110 NEXT
+120 FOR I=0 TO 25
+130 LC 3+I,6:?CHR$(65+I)
+140 LC 3+I,16:?CHR$([I])
+150 NEXT
 
-120 I=0:L=L+1:LC5,0:?L
-130 H=RND(26):IF SCR(H+3,6)<>32 I=I+1:LC H+3,6:?" "
-140 IF I<L THEN GOTO 130
-
-150 GOSUB 600
+'Setup Level
+160 V=V+1:LC 0,0:?"ÚÍÞÙ:";V
+170 I=0
+180 H=RND(26):IF SCR(3+H,6)<>32 I=I+1:LC 3+H,6:?" "
+190 IF I<V THEN GOTO 180
+200 GOSUB 340
 
 'Main loop
 '200 A=ANA(2)
 '210 A=A*10:C=A/1023:LC 1,1:?C;" "
-200 LC X-1,Y:?" û ";
 210 K=INKEY()
-220 IF K=29 X=X+1
-230 IF K=28 X=X-1
-240 IF X<1 X=1
-250 IF X>30 X=30
-260 IF BTN() THEN Y=17:LC X,18:?" " ELSE Y=18:LC X,17:?" "
+220 IF K=29 L=L+1
+230 IF K=28 L=L-1
+240 IF L<1 L=1
+250 IF L>30 L=30
+260 B=BTN()
+270 LC L-1,17+(B=0):?" û ";
+280 LC L,17+(B=1):?" "
 
-300 IF Y=17 && SCR(X,16)=W LC W-65+3,6:?CHR$(W):GOSUB 600
-310 IF W=0 GOTO 30
+'Correct -> Next Word
+300 IF B=1 && SCR(L,16)=W LC 3+W-65,6:?CHR$(W):GOSUB 340
 
-500 WAIT1:GOTO 200
+'Next Level
+310 IF W=0 V=26 LC 8,12:?"´²ºÞ Ï½À- !!":WAIT 60:END
+320 IF W=0 LC 8,12:?"¾²¶² !!":WAIT 60:GOTO 20
 
-600 W=0
-610 FOR I=0 TO 25
-620 IF SCR(I+3,6)=32 W=65+I:LC I+3,7:?"â":RETURN
-630 NEXT
-640 RETURN
+330 WAIT1:GOTO 210
+
+'Search Question
+340 W=0
+350 FOR I=0 TO 25
+360 LC 3+I,7
+370 IF SCR(3+I,6)=32 && W=0 THEN W=65+I:?"â" ELSE ?" "
+380 NEXT
+390 RETURN
