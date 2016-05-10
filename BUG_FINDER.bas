@@ -1,23 +1,57 @@
 '012
 '7 3
 '654
+' A,B BUG X,Y
+' D   BUG Direction
+' L,T FINDER X,Y
 
-1 'BUG FINDER
-2 CLS:CLV
-3 A=RND(32):B=RND(24)
 
-10 D=RND(3)+D-1:IF D=8 D=0
-20 IF D=0 A=A-1:B=B-1
-30 IF D=1 A=A+0:B=B-1
-40 IF D=2 A=A+1:B=B-1
-50 IF D=3 A=A+1:B=B+0
-60 IF D=4 A=A+1:B=B+1
-70 IF D=5 A=A+0:B=B+1
-80 IF D=6 A=A-1:B=B+1
-90 IF D=7 A=A-1:B=B+0
-100 IF A<0 A=0:D=3
-110 IF A>31 A=31:D=7
-120 IF B<0 B=0:D=5
-130 IF B>23 B=23:D=1
+1 ' ﬁ∏ﬁ Ãß≤›¿ﬁ- Ì
+10 CLS:CLV:OUT0
+20 A=RND(32):B=RND(24)
 
-200 LC A,B:?"O";:WAIT 60:LC A,B:?" ";:GOTO 10
+'Initialize ADXL345(I2C)
+30 POKE #700,#31,#00:IF I2CW(#53,#700,1,#701,1)?"E"
+40 POKE #700,#2D,#08:IF I2CW(#53,#700,1,#701,1)?"E"
+
+'Mainloop 
+'Read ADXL345(Adjust Center X+55,Y+93)
+50 X=PEEK(#702) << 8 + PEEK(#701):X=X+55
+60 Y=PEEK(#704) << 8 + PEEK(#703):Y=Y+93
+70 F=X/10:L=L+F
+80 G=Y/10*-1:T=T+G
+
+90 IF L<0+2 L=0+2
+100 IF L>31-2 L=31-2
+110 IF T<0 T=0
+120 IF T>22 T=22
+
+'Move FINDER
+130 IF L<>M||T<>U LC M,U:?"     ";
+140 LC L-2,T:?"<[ ]>";
+150 M=L:U=T
+
+'Move BUG
+160 D=RND(3)+D-1:IF D=8 D=0
+170 IF D=0 A=A-1:B=B-1
+180 IF D=1 A=A+0:B=B-1
+190 IF D=2 A=A+1:B=B-1
+200 IF D=3 A=A+1:B=B+0
+210 IF D=4 A=A+1:B=B+1
+220 IF D=5 A=A+0:B=B+1
+230 IF D=6 A=A-1:B=B+1
+240 IF D=7 A=A-1:B=B+0
+250 IF A<0  A=0: D=3
+260 IF A>31 A=31:D=7
+270 IF B<0  B=0: D=5
+280 IF B>23 B=23:D=1
+290 LC A,B:?"Ì";
+
+'Finder LED
+300 PWN 2,100*(ABS(L-A)+ABS(T-B))
+
+'Found BUG
+310 B=IN(1)
+320 IF B=0 IF L=A && T=B THEN LC L,T:?"Ì":LC 12,12:?"–¬π¿!!":END ELSE LC L,T:?"ê"
+
+990 WAIT 1:GOTO 50
