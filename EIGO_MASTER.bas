@@ -45,7 +45,7 @@
 280 LC L,17+(B=1):?" "
 
 'Correct -> Next Word
-290 IF B=1 && SCR(L,16)=W LC 3+W-65,6:?CHR$(W):GOSUB 330
+290 IF B=1 && SCR(L,16)=W LC L,16:?" ":LC L,15:?CHR$(W):WAIT 60:LC 3+W-65,6:?CHR$(W):WAIT 60:GOSUB 330
 
 'Next Level
 300 IF W=0 V=26 LC 8,12:?"´²ºÞ Ï½À- !!":WAIT 60:END
