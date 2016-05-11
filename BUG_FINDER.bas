@@ -25,34 +25,33 @@
 110 IF T>21 T=21
 
 'Move FINDER
-120 IF L<>M||T<>U LC M-1,U-1:?"   ";:LC M-2,U  :?"     ";:LC M-1,U+1:?"   ";
-130 LC L-1,T-1:?"òëô";:LC L-2,T:?"ëî ïë";:LC L-1,T+1:?"öëõ";
-140 M=L:U=T
+120 IF L<>M||T<>U FOR I=-1 TO 2 LC M-1,U+I:?"   ";:NEXT:LC L-1,T-1:?"òëô";:LC L-1,T:  ?"í í";:LC L-1,T+1:?"öóõ";:LC L-1,T+2:?" í ";:M=L:U=T
 
 'Move BUG
-145 IF TICK()<60 THEN GOTO 310 ELSE CLT
-150 D=RND(3)+D-1
-160 IF D>7 D=0
-170 IF D<0 D=7
-180 IF D=0 A=A-1:B=B-1
-190 IF D=1 A=A+0:B=B-1
-200 IF D=2 A=A+1:B=B-1
-210 IF D=3 A=A+1:B=B+0
-220 IF D=4 A=A+1:B=B+1
-230 IF D=5 A=A+0:B=B+1
-240 IF D=6 A=A-1:B=B+1
-250 IF D=7 A=A-1:B=B+0
-260 IF A<0  A=0: D=3
-270 IF A>31 A=31:D=7
-280 IF B<0  B=0: D=5
-290 IF B>23 B=23:D=1
-300 LC A,B:?"Ì";:WAIT10:LC A,B:?" ";
+130 IF TICK()<60 THEN GOTO 300 ELSE CLT
+140 D=RND(3)+D-1
+150 IF D>7 D=0
+160 IF D<0 D=7
+170 IF D=0 A=A-1:B=B-1
+180 IF D=1 A=A+0:B=B-1
+190 IF D=2 A=A+1:B=B-1
+200 IF D=3 A=A+1:B=B+0
+210 IF D=4 A=A+1:B=B+1
+220 IF D=5 A=A+0:B=B+1
+230 IF D=6 A=A-1:B=B+1
+240 IF D=7 A=A-1:B=B+0
+250 IF A<0  A=0: D=3
+260 IF A>31 A=31:D=7
+270 IF B<0  B=0: D=5
+280 IF B>21 B=21:D=1
+290 LC A,B:?"Ì";:WAIT10:LC A,B:?" ";
 
 'Finder LED
-310 PWM 2,(1-(1-(ABS(L-A)+ABS(T-B))/2))*100
+300 PWM 2,(1-(1-(ABS(L-A)+ABS(T-B))/2))*100
 
 'Found BUG
-320 B=IN(1)
-330 IF B=0 LC L,T:IF L=A && T=B THEN ?"Ì":LC 12,12:?"–¬π¿!!":END ELSE ?"ê"
+310 B=IN(1)
+320 IF B=0 LC L,T:IF L=A && T=B THEN ?"Ì":LC 12,12:?"–¬π¿!!":END ELSE ?"ê"
 
-340 WAIT 1:GOTO 50
+330 WAIT 1:GOTO 50
+
