@@ -38,7 +38,7 @@
 180 IF L<>M||T<>U FOR I=-1 TO 2:LC M-1,U+I:?"   ";:NEXT:LC L-1,T-1:?"˜‘™";:LC L-1,T:?"’ ’";:LC L-1,T+1:?"š—›";:LC L,T+2:?"’";:M=L:U=T
 
 'Finder LED
-190 P=ABS(L-A)+ABS(T-B):IF P%2>0 P=P+1
+190 P=ABS(L-A)+ABS(T-B)-(L<>A&&T<>B)
 200 PWM 2,1000-(P/2)*700
 210 IF P>3 THEN V=30 ELSE V=50
 
