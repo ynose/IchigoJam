@@ -1,0 +1,22 @@
+' L  Tray Left
+
+1 'ƒﬁ≥Ãﬁ¬
+
+10 CLS:CLV:CLT
+20 A=236:X=0:GOSUB 900
+30 A=237:X=31:GOSUB 900
+
+
+'Main loop
+10 A=ANA(2)
+20 A=A*10:C=A/1023:LC 1,1:?C;" "
+
+100 LC L,16:?"öëõ"
+
+' House
+900 FOR I=0 TO 4
+910 LC X,18+I:?"Ö ä"
+920 NEXT
+930 LC X,22:?"çåé"
+940 LC X+1,23:?A
+950 RETURN
