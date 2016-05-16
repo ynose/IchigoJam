@@ -25,9 +25,9 @@
 'Animal Move
 120 FOR I=0 TO 5
 130 P=3*I+1*I
-140 IF [P+1]=0 [P+3]=RND(8)+12:[P+2]=RND([P]/2)+1:[P+2]=[P+2]*-1
+140 IF [P+1]=0 [P+3]=RND(16)+8:[P+2]=RND([P]/2)+1:[P+2]=[P+2]*-1
 150 IF I%2=0 A=236 ELSE A=237
-160 GOSUB 280:WAIT 1
+160 GOSUB 280
 'Catch Animal
 170 IF [P+2]=15&&[P+3]=C+1 O=A:[P+1]=0
 180 NEXT
@@ -51,8 +51,7 @@
 'Animal
 280 S=TICK():T=[P+2]
 290 IF [P+1]+[P]<S T=T+1:[P+1]=S
-300 IF [P+2]<>T && 0<T LC [P+3],[P+2]:?" ";
-310 IF 0<=T && T<23 LC [P+3],T:?CHR$(A);
+300 IF [P+2]<>T && 0<T && T<24 LC [P+3],[P+2]:?" ";:LC [P+3],T:?CHR$(A);
 320 IF T=23 [P+1]=0
 330 [P+2]=T
 340 RETURN
