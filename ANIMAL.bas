@@ -46,13 +46,16 @@
 250 IF L=5 L=0:V=V+1:A=236:X=0:GOSUB 350
 260 IF R=5 R=0:V=V+1:A=237:X=29:GOSUB 350
 
+'GameOver
+265 IF Z=V LC 12,12:?"¹Þ-Ñµ-ÊÞ-";:GOSUB 410:GOTO 100
+
 270 WAIT1:GOTO 100
 
 'Animal
 280 S=TICK():T=[P+2]
 290 IF [P+1]+[P]<S T=T+1:[P+1]=S
 300 IF [P+2]<>T && 0<T && T<24 LC [P+3],[P+2]:?" ";:LC [P+3],T:?CHR$(A);
-320 IF T=23 [P+1]=0
+320 IF T=23 [P+1]=0:Z=Z+1
 330 [P+2]=T
 340 RETURN
 
@@ -63,3 +66,7 @@
 380 LC X,22:?"ŒŽ";
 390 LC X+1,23:?CHR$(A);
 400 RETURN
+
+'Push to Start
+410 IF IN(1)=1 GOTO 310
+420 RETURN
