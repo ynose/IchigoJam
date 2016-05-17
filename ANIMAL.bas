@@ -5,8 +5,7 @@
 ' M,S ìí
 ' v   Level
 
-'10 'ÄÞ³ÌÞÂ
-
+'ÄÞ³ÌÞÂ
 10 CLS:CLV:CLT:M=236:S=237:V=1
 20 A=M:X=0:GOSUB 340
 30 A=S:X=29:GOSUB 340
