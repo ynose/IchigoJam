@@ -1,15 +1,15 @@
 ' [0]Interval,[1]LastTick,[2]Left,[3]Top
 ' C,D Tray Left
 ' O   Tray On Animal
-' L   ìLeft Score
-' R   íRight Score
+' L,R ìí Score
+' M,S ìí
 ' v   Level
 
 '1 'ÄÞ³ÌÞÂ
 
-10 CLS:CLV:CLT:V=1
-20 A=236:X=0:GOSUB 350
-30 A=237:X=29:GOSUB 350
+10 CLS:CLV:CLT:M=236:S=237:V=1
+20 A=M:X=0:GOSUB 350
+30 A=S:X=29:GOSUB 350
 
 40 [0]=60
 50 [4]=30
@@ -26,28 +26,28 @@
 120 FOR I=0 TO 5
 130 P=3*I+1*I
 140 IF [P+1]=0 [P+2]=RND(16)+8:[P+3]=RND([P]/2)+1:[P+3]=[P+3]*-1
-150 IF I%2=0 A=236 ELSE A=237
+150 IF I%2=0 A=M ELSE A=S
 160 GOSUB 280
 'Catch Animal
-170 IF [P+3]=15&&[P+2]=C+1 O=A:[P+1]=0
+170 IF [P+2]=C+1 && [P+3]=15 O=A:[P+1]=0
 180 NEXT
 
 'Tray Move
-190 IF C<>D LC D+1,15:?" ";:LC D,16:?"   ";
+190 IF C<>D LC D+1,15:?" ";:LC D,16:?"   ";:D=C
 200 LC C+1,15:?CHR$(O);:LC C,16:?"š‘›";
-210 D=C
 
 'Score
-220 IF O=236&&C=0  L=L+1:LC 1,22-L:?CHR$(O);:O=0
-230 IF O=237&&C=29 R=R+1:LC 30,22-R:?CHR$(O);:O=0
+220 IF O=M && C=0 L=L+1:LC 1,22-L:?CHR$(O);:O=0
+230 IF O=S && C=29 R=R+1:LC 30,22-R:?CHR$(O);:O=0
 
 'LevelUp
 240 LC 0,0:?"ÚÍÞÙ:";V;
-250 IF L=5 L=0:V=V+1:A=236:X=0:GOSUB 350
-260 IF R=5 R=0:V=V+1:A=237:X=29:GOSUB 350
+250 IF L=5 L=0:V=V+1:A=M:X=0:GOSUB 350
+260 IF R=5 R=0:V=V+1:A=S:X=29:GOSUB 350
 
 'GameOver
-265 IF Z=V LC 12,12:?"¹Þ-Ñµ-ÊÞ-";:GOSUB 410:GOTO 100
+265 IF Z=V LC 12,12:?"¹Þ-Ñµ-ÊÞ-";:WAIT60:GOSUB 410:GOTO 100
+266 IF 5<V LC 12,12:?"¹Þ-Ñ¸Ø±-!";:WAIT60:GOSUB 410:GOTO 100
 
 270 WAIT1:GOTO 100
 
