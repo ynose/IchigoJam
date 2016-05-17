@@ -18,9 +18,9 @@
 110 C=(I-95)/(1023-95)*29
 
 'Animal Move
-120 FOR I=0 TO 5
+120 FOR I=0 TO V
 130 P=3*I+1*I
-140 IF [P+1]=0 [P+2]=RND(16)+8:[P+3]=RND([P]/2)+1:[P+3]=[P+3]*-1
+140 IF [P+1]=0 [P+1]=K-[P]*(RND(3)+1):[P+2]=RND(16)+8:[P+3]=-1
 150 IF I%2=0 A=M ELSE A=S
 160 GOSUB 280
 'Catch Animal
@@ -53,8 +53,8 @@
 
 'Animal
 280 T=[P+3]
-285 S=TICK()
-290 IF [P+1]+[P]<S T=T+1:[P+1]=S
+285 K=TICK()
+290 IF [P+1]+[P]<K T=T+1:[P+1]=K
 300 IF [P+3]<>T && 0<T && T<24 LC [P+2],[P+3]:?" ";:LC [P+2],T:?CHR$(A);
 320 IF T=23 [P+1]=0:Z=Z+1
 330 [P+3]=T
