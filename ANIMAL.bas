@@ -20,7 +20,7 @@
 'Animal Move
 120 FOR I=0 TO V
 130 P=3*I+1*I
-140 IF [P+1]=0 [P+1]=K-[P]*(RND(3)+1):[P+2]=RND(16)+8:[P+3]=-1
+140 IF [P+1]=0 [P+1]=K+[P]*(RND(3)+1):[P+2]=RND(16)+8:[P+3]=-1
 150 IF I%2=0 A=M ELSE A=S
 160 GOSUB 280
 'Catch Animal
