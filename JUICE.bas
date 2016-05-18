@@ -44,14 +44,14 @@
 260 IF P+5<K T=T+1:P=K
 270 IF U<>T LC L,U:?" ";:LC L,T:?"";
 280 U=T
-290 IF T<30-B GOTO 250
-300 IF T=30-B&&A<W LC L-A,30-B:?"";:A=A+1
+290 IF T<23-B GOTO 250
+300 IF T=23-B&&A<W LC L-A,23-B:?"";:A=A+1
 310 IF A=W B=B+1:A=0
 320 RTN
 
 'Draw Glass
-330 FOR Y=0 TO 5:LC L-3,30-Y:?"     ";:NEXT
-340 FOR I=1 TO H:LC L-W,31-I:?"";:LC L+1,31-I:?"";:NEXT
-350 LC L-W,31:?"š";:FOR I=L-W+1 TO 18:LC I,31:?"‘";:NEXT:LC L+1,31:?"›";
+330 FOR Y=0 TO 5:LC L-3,23-Y:?"     ";:NEXT
+340 FOR I=1 TO H:LC L-W,23-I:?"";:LC L+1,23-I:?"";:NEXT
+350 LC L-W,23:?"š";:FOR I=L-W+1 TO 18:LC I,23:?"‘";:NEXT:LC L+1,23:?"›";
 360 RTN
 
