@@ -22,7 +22,6 @@
 90 IF [P+1]=0 [P+1]=K+[P]*(RND(3)+1):[P+2]=RND(16)+8:[P+3]=-1
 100 IF I%2=0 A=M ELSE A=S
 110 GOSUB 270
-'Catch Animal
 120 IF [P+2]=C+1&&[P+3]=15 O=A:[P+1]=0
 130 NEXT
 
@@ -41,14 +40,14 @@
 
 'GameOver
 210 IF Z=V LC 12,12:?"¹Þ-Ñµ-ÊÞ-";:GOTO 240
-220 IF 5<V LC 14,12:?"¸Ø±-!";:GOTO 240
+220 IF 3<V LC 14,12:?"¸Ø±-!";:GOTO 240
 
 230 WAIT1:GOTO 50
 
 'Push to Start
 240 WAIT60
 250 IF IN(1)=1 CONT
-260 GOTO 50
+260 GOTO 10
 
 'Animal
 270 T=[P+3]
@@ -61,8 +60,6 @@
 
 ' House
 340 FOR I=0 TO 4:LC X,17+I:?"… Š";:NEXT
-370 LC X,22:?"ŒŽ";
-380 LC X+1,23:?CHR$(A);
-390 RTN
-
-
+350 LC X,22:?"ŒŽ";
+360 LC X+1,23:?CHR$(A);
+370 RTN
