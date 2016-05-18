@@ -1,8 +1,0 @@
-' B  ¿º
-' W,H Glass Width,Height
-' I,J Water Width,Height
-
-10 IF I<W I=I+1 ELSE J=J+1
-20 FOR A=0 TO W:LC A,B-J:?"";
-20 IF J>H ?"Over"
-30 GOTO 10
