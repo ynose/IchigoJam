@@ -4,49 +4,54 @@
 ' S   Score
 
 '1 '¼Þ­-½
-10 CLS:CLV:CLT:L=10
+10 CLS:CLV:CLT:L=18
+20 LC24,3:?""
+30 LC22,4:?""
+40 LC24,5:?"    "
+50 LC23,6:?"   "
+60 LC19,7:?""
+70 LC18,8:?""
+80 LC17,9:?"     "
+90 LC17,10:?"          "
+100 LC17,11:?""
 
 'Next Glass
-20 W=RND(3)+1:H=RND(5)+1:GOSUB 240
-30 A=0:B=0
-40 LC 0,0:?"ÃÝ½³:";S;
+110 W=RND(3)+1:H=RND(5)+1:GOSUB 330
+120 A=0:B=0
+130 LC 0,0:?"ÃÝ½³:";S;
 
 
 'Main loop
-50 I=ANA(2)
-60 C=(I-95)*10/(1023-95)
-70 K=TICK()
-80 IF D+C<K D=K:GOSUB 150
+140 I=ANA(2)
+150 C=(I-95)*10/(1023-95)
+160 K=TICK()
+170 IF D+C<K D=K:GOSUB 240
 
-90 IF H=B && W=A && C=0 S=S+1:GOTO 20
-100 IF H<B LC 20,20:?"OVER FLOW!!":GOTO 120
+180 IF W*H=A*B&&C=0 S=S+1:GOTO 110
+190 IF H<B LC 20,20:?"±ÌÚÀ!!":GOTO 210
 
 
-110 GOTO 50
+200 GOTO 140
 
 'Push to Start
-120 WAIT60
-130 IF IN(1)=1 CONT
-140 GOTO 20
+210 WAIT60
+220 IF IN(1)=1 CONT
+230 GOTO 10
 
 'Drop Water
-150 P=0:T=10
-160 K=TICK()
-170 IF P+30<K T=T+1:P=K
-180 IF U<>T LC L,U:?" ";:LC L,T:?"";
-190 U=T
-200 IF T=30-B&&A<W LC L-A,B:?"";:A=A+1:
-210 IF A=W B=B+1:A=0
-220 IF T<30-B GOTO 160
-230 RETURN
-
+240 P=0:T=12
+250 K=TICK()
+260 IF P+5<K T=T+1:P=K
+270 IF U<>T LC L,U:?" ";:LC L,T:?"";
+280 U=T
+290 IF T<30-B GOTO 250
+300 IF T=30-B&&A<W LC L-A,30-B:?"";:A=A+1
+310 IF A=W B=B+1:A=0
+320 RTN
 
 'Draw Glass
-240 FOR Y=0 TO 6
-250 LC L-3,31-Y:?"     ";
-260 NEXT
-270 FOR I=1 TO H
-280 LC L-W,30-I:?"";LC L+1,30-I:?""
-290 NEXT
-300 LC L-W,31:?"š";FOR I=1 TO W:LC L-W+I,31:?"‘";:LC L+1,31:?"›"
-310 RETURN
+330 FOR Y=0 TO 5:LC L-3,30-Y:?"     ";:NEXT
+340 FOR I=1 TO H:LC L-W,31-I:?"";:LC L+1,31-I:?"";:NEXT
+350 LC L-W,31:?"š";:FOR I=L-W+1 TO 18:LC I,31:?"‘";:NEXT:LC L+1,31:?"›";
+360 RTN
+
