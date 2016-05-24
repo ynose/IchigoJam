@@ -1,27 +1,35 @@
 ' J CPU
 ' M Me
-' W Win=1, Draw=0, Lose=-1
+' W Lose=0, Win=1, Draw=2
 
 10 CLS:CLV:CLT
 20 G=1:C=2:P=3
 
-50 ?"Jan":WAIT 60
-60 ?"Ken":WAIT 60
+50 IF W=2 ?"Ai" ELSE ?"Jan"
+60 WAIT 60
+70 IF W=2 ?"Kode" ELSE ?"Ken"
+80 WAIT 60
 
-100 J=RND(3)+1:M=0
+100 M=0:J=RND(3)+1
 110 IF IN(1)=0 M=G
 120 IF IN(2)=0 M=C
 130 IF IN(3)=0 M=P
 140 IF M=0 GOTO 110
-150 ?"Pon":WAIT 60
+150 IF W=2 ?"Sho" ELSE ?"Pon"
+160 GOSUB 500
+170 WAIT 60
 
 200 IF M=G && J=C W=1
 210 IF M=C && J=P W=1
 220 IF M=P && J=G W=1 
-230 IF M=J W=0 ELSE W=-1
+230 IF M=J W=2 ELSE W=0
 
-300 IF W=1 ?"Win"
-310 IF W=0 ?"Draw"
-320 IF W=-1 ?"Lose"
+300 IF W=0 ?"Lose"
+310 IF W=1 ?"Win"
+320 IF W=2 ?"Draw"
 
 400 WAIT 60*2:GOTO 10
+
+'MATRIX LED
+500 '
+590 RETURN
