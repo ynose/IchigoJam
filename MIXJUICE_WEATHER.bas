@@ -28,16 +28,23 @@
 40 FOR M=#770 TO #772
 50  W=I2CW(#70,M,1,#770,0)
 60 NEXT
+70 LRUN 101
+
+SAVE 100
 
 
-100 CLT:W=0:T=0
+' Get Weather from MixJuice
+NEW
+
+100 CLT:W=0:T=0:WAIT 60
 
 ' Get Weather
-110 M=ASC("w"):GOSUB 800
+110 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
+116 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
 120 INPUT W:?"Weather:";W
 
 ' Get Temperature
-130 M=ASC("t"):GOSUB 800
+130 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=t"
 140 INPUT T:?"Temperature:";T
 150 A=T/10:B=T%10
 
@@ -51,6 +58,12 @@
 310  [L]=PEEK(#700+B*8+(L-20))
 320  IF A>0 [L]=[L]|PEEK(#700+A*8+(L-20))<<4
 330 NEXT
+400 LRUN 102
+
+SAVE 101
+
+
+NEW
 
 ' Weather to MatrixLED
 440 FOR L=0 TO 7
@@ -81,11 +94,8 @@
 
 700 GOTO 500
 
-
-' Get Weather from MixJuice
-800 ?"MJ GET ynose.weblike.jp/weather.php?country=000000&mode=";CHR$(M)
-810 RETURN
-
 ' [0] to MatrixLED
 900 W=I2CW(#70,#773,1,#800,16) 
 910 RETURN
+
+SAVE 102
