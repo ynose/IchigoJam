@@ -1,5 +1,8 @@
 <?php
 
+// 千葉県の天気予報の日付を取得
+// http://ynose.weblike.jp/weather.php?city=120010&mode=d
+
 // 千葉県の天気を取得
 // http://ynose.weblike.jp/weather.php?city=120010&mode=w
 
@@ -69,10 +72,12 @@ $url = "http://weather.livedoor.com/forecast/webservice/json/v1?city=" . $city;
 $contents = file_get_contents($url, false, $context);
 $json     = json_decode($contents);
 // 今日の天気予報
+$date     = $json->{'forecasts'}[0]->{'date'};
 $tenki    = $json->{'forecasts'}[0]->{'telop'};
 $temp     = $json->{'forecasts'}[0]->{'temperature'}->{'max'}->{'celsius'};
 // 明日の天気予報 （今日の予報が終了していたら明日の予報に切り替える）
 if (is_null($tenki) || is_null($temp)) {
+  $date   = $json->{'forecasts'}[1]->{'date'};
   $tenki  = $json->{'forecasts'}[1]->{'telop'};
   $temp   = $json->{'forecasts'}[1]->{'temperature'}->{'max'}->{'celsius'};
 }
@@ -80,6 +85,12 @@ if (is_null($tenki) || is_null($temp)) {
 // リターン
 switch ($_GET['mode'])
 {
+  case 'd';
+    header('Content-Type: Text/Plain');
+    print $date;
+    print(PHP_EOL);
+    break;
+
   case 'w';
     if (preg_match("/晴/", $tenki)) {
       $w = 1;
