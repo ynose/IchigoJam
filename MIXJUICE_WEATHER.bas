@@ -3,7 +3,7 @@
 ' W=√›∑ 1 ⁄,2∏”ÿ,3±“
 ' M=Weather Get Mode w=Weather, t=Temperature
 
-1 '√›∑÷Œ≥
+1 '√›∑÷Œ≥ 1/3
 10 CLS:CLV
 
 ' Number 0..9
@@ -26,9 +26,8 @@
 ' Init MatrixLED
 300 POKE #770,#21,#81,#E1,#00
 310 FOR M=#770 TO #772
-320  W=I2CW(#70,M,1,#770,0)
+320  Z=I2CW(#70,M,1,#770,0)
 330 NEXT
-
 999 LRUN 101
 
 SAVE 100
@@ -36,25 +35,27 @@ SAVE 100
 
 NEW
 ' Get Weather from MixJuice
-1 '2/3
-10 CLT:W=0:T=0
+1 '√›∑÷Œ≥ 2/3
+10 CLS:CLT:W=0:T=0
 
 ' Loading to MatrixLED
 100 A=#FF*8
 110 FOR L=0 TO 7
 120  [L]=PEEK(A+L)
 130 NEXT
-140 W=I2CW(#70,#773,1,#800,16)
+140 Z=I2CW(#70,#773,1,#800,16)
 150 WAIT 60
 
 ' Get Weather
 200 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
 210 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
 220 INPUT W:?"Weather:";W
+225 WAIT 60
 
 ' Get Temperature
 300 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=t"
 310 INPUT T:?"Temperature:";T
+315 WAIT 60
 320 A=T/10:B=T%10
 
 ' Weather to Array[10-17]
@@ -74,7 +75,7 @@ SAVE 101
 
 
 NEW
-1 '3/3
+1 '√›∑÷Œ≥ 3/3
 
 ' Weather to MatrixLED
 100 FOR L=0 TO 7
@@ -108,7 +109,7 @@ NEW
 410 LRUN 101
 
 ' [0] to MatrixLED
-900 W=I2CW(#70,#773,1,#800,16) 
+900 Z=I2CW(#70,#773,1,#800,16) 
 910 RETURN
 
 SAVE 102
