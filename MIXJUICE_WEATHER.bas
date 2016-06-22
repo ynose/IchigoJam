@@ -1,9 +1,13 @@
 ' T=µÝÄÞ AB
 ' A=10É¸×², B=1É¸×²
+' C=Address MatrixLED
+' D=Address ADT7410
+' T=Return ADT7410
 ' W=ÃÝ· 1ÊÚ,2¸ÓØ,3±Ò
 ' M=Weather Get Mode w=Weather, t=Temperature
+' Z=Return I2C
 
-1 'ÃÝ·ÖÎ³ 1/3
+1 'ÃÝ·ÖÎ³ 1/4
 10 CLS:CLV
 
 ' Number 0..9
@@ -24,18 +28,29 @@
 220 POKE #760,#18,#24,#42,#81,#FF,#10,#14,#08
 
 ' Init MatrixLED
-300 POKE #770,#21,#81,#E1,#00
-310 FOR M=#770 TO #772
-320  Z=I2CW(#70,M,1,#770,0)
-330 NEXT
+300 C=#70
+310 POKE #770,#21,#81,#E1,#00
+320 FOR M=#770 TO #772
+330  Z=I2CW(C,M,1,#770,0)
+340 NEXT
+
+' Init ADT7410
+400 D=#48
+410 POKE #780,#00,#01,#02,#03
+420 POKE #784,#80
+430 Z=I2CW(D,#783,1,#784,1)
+
 999 LRUN 101
 
 SAVE 100
 
 
 NEW
+NEW
+
+
 ' Get Weather from MixJuice
-1 'ÃÝ·ÖÎ³ 2/3
+1 'ÃÝ·ÖÎ³ 2/4
 10 CLS:CLT:W=0:T=0
 
 ' Loading to MatrixLED
@@ -43,7 +58,7 @@ NEW
 110 FOR L=0 TO 7
 120  [L]=PEEK(A+L)
 130 NEXT
-140 Z=I2CW(#70,#773,1,#800,16)
+140 Z=I2CW(C,#773,1,#800,16)
 150 WAIT 60
 
 ' Get Weather
@@ -75,7 +90,10 @@ SAVE 101
 
 
 NEW
-1 'ÃÝ·ÖÎ³ 3/3
+NEW
+
+
+1 'ÃÝ·ÖÎ³ 3/4
 
 ' Weather to MatrixLED
 100 FOR L=0 TO 7
@@ -104,12 +122,41 @@ NEW
 360 NEXT
 370 WAIT 60*3
 
+' Goto ADT7410
+400 IF BTN() LRUN 103
+
 ' Loop or Loading
-400 IF TICK() < 60*60 GOTO 200
-410 LRUN 101
+500 IF TICK() < 60*60 GOTO 200
+510 LRUN 101
 
 ' [0] to MatrixLED
-900 Z=I2CW(#70,#773,1,#800,16) 
+900 Z=I2CW(C,#773,1,#800,16) 
 910 RETURN
 
 SAVE 102
+
+
+NEW
+NEW
+
+
+1 'ÃÝ·ÖÎ³ 4/4
+
+' Read ADT7410
+10 Z=I2CR(D,#781,1,#800+16,1)
+20 Z=I2CR(D,#780,1,#801+16,1)
+30 T=[8]/128
+40 ?"¿¸Ã²Á=";[8];" : µÝÄÞ=";T
+
+' ADT7410 to LED
+100 A=T/10:B=T%10
+110 FOR L=0 TO 7
+120  [L]=PEEK(#700+B*8+L)
+130  IF A>0 [L]=[L]|PEEK(#700+A*8+L)<<4
+140 NEXT
+150 W=I2CW(C,#773,1,#800,16) 
+160 WAIT 60*5
+
+200 LRUN 102
+
+SAVE 103
