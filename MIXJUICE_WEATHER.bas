@@ -1,12 +1,18 @@
-' T=µÝÄÞ AB
+' Weather Forecast for IchigoJam + MixJuice
+' IchigoJam BASIC 1.1.1
+
+' T=·µÝ AB
 ' A=10É¸×², B=1É¸×²
 ' C=Address MatrixLED
 ' D=Address ADT7410
+' L=[L}
 ' T=Return ADT7410
 ' W=ÃÝ· 1ÊÚ,2¸ÓØ,3±Ò
-' M=Weather Get Mode w=Weather, t=Temperature
-' Z=Return I2C
+' M=QueryString mode=w...Weather, t...Temperature
+' Z=I2CR(),I2CW()
 
+' 100 ----------
+' Init LED Pattern, Init I2C Device
 1 'ÃÝ·ÖÎ³ 1/4
 10 CLS:CLV
 
@@ -22,7 +28,7 @@
 180 POKE #740,#06,#09,#09,#06,#09,#09,#09,#06
 190 POKE #748,#06,#09,#09,#07,#01,#01,#09,#06
 
-' Sun,Cloud,Rain
+' Weather icon Sun,Cloud,Rain
 200 POKE #750,#10,#42,#18,#3D,#BC,#18,#42,#08
 210 POKE #758,#00,#30,#48,#46,#81,#81,#7E,#00
 220 POKE #760,#18,#24,#42,#81,#FF,#10,#14,#08
@@ -49,9 +55,12 @@ NEW
 NEW
 
 
-' Get Weather from MixJuice
+' 101 ----------
+' Get WeatherForecast from Web(MixJuice)
 1 'ÃÝ·ÖÎ³ 2/4
-10 CLS:CLT:W=0:T=0
+10 CLS
+20 PRINT
+30 CLT:W=0:T=0
 
 ' Loading to MatrixLED
 100 A=#FF*8
@@ -62,18 +71,18 @@ NEW
 150 WAIT 60
 
 ' Get Weather
-200 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
+200 '?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
 210 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=w"
 220 INPUT W:?"Weather:";W
 225 WAIT 60
 
 ' Get Temperature
 300 ?"MJ GET ynose.weblike.jp/weather.php?city=120010&mode=t"
-310 INPUT T:?"Temperature:";T
+310 INPUT T:?"Temperature:";T;"ßC"
 315 WAIT 60
 320 A=T/10:B=T%10
 
-' Weather to Array[10-17]
+' Weather icon to Array[10-17]
 400 FOR L=10 TO 17
 410  [L]=PEEK(#750+(W-1)*8+(L-10))
 420 NEXT
@@ -93,6 +102,8 @@ NEW
 NEW
 
 
+' 102 ----------
+' Display WeatherForecast to MatrixLED
 1 'ÃÝ·ÖÎ³ 3/4
 
 ' Weather to MatrixLED
@@ -102,7 +113,7 @@ NEW
 130 GOSUB 900
 140 WAIT 60*3
 
-' Weather -> Temperature
+' Weather -> Temperature (Scroll)
 200 FOR S=0 TO 7
 210  FOR L=0 TO 7
 220   [L]=[L]<<1|[20+L]>>(7-S)
@@ -112,7 +123,7 @@ NEW
 260 NEXT
 270 WAIT 60*3
 
-' Weather <- Temperature
+' Weather <- Temperature (Scroll)
 300 FOR S=0 TO 7
 310  FOR L=0 TO 7
 320   [L]=[L]>>1|[10+L]<<(7-S)
@@ -122,7 +133,7 @@ NEW
 360 NEXT
 370 WAIT 60*3
 
-' Goto ADT7410
+' Push Button Goto ADT7410
 400 IF BTN() LRUN 103
 
 ' Loop or Loading
@@ -140,23 +151,24 @@ NEW
 NEW
 
 
+' 103 ----------
 1 'ÃÝ·ÖÎ³ 4/4
 
 ' Read ADT7410
-10 Z=I2CR(D,#781,1,#800+16,1)
-20 Z=I2CR(D,#780,1,#801+16,1)
-30 T=[8]/128
-40 ?"¿¸Ã²Á=";[8];" : µÝÄÞ=";T
+100 Z=I2CR(D,#781,1,#800+16,1)
+110 Z=I2CR(D,#780,1,#801+16,1)
+120 T=[8]/128
+130 ?"¿¸Ã²Á=";[8];" : µÝÄÞ=";T;"ßC"
 
 ' ADT7410 to LED
-100 A=T/10:B=T%10
-110 FOR L=0 TO 7
-120  [L]=PEEK(#700+B*8+L)
-130  IF A>0 [L]=[L]|PEEK(#700+A*8+L)<<4
-140 NEXT
-150 W=I2CW(C,#773,1,#800,16) 
-160 WAIT 60*5
+200 A=T/10:B=T%10
+210 FOR L=0 TO 7
+220  [L]=PEEK(#700+B*8+L)
+230  IF A>0 [L]=[L]|PEEK(#700+A*8+L)<<4
+240 NEXT
+250 Z=I2CW(C,#773,1,#800,16) 
+260 WAIT 60*5
 
-200 LRUN 102
+300 LRUN 102
 
 SAVE 103
