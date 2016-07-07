@@ -5,7 +5,7 @@
 10 CLS:CLV:CLT
 20 LC0,0:?"À²Ñ:"
 30 LC0,1
-40 LRUN 1
+40 LRUN 124
 
 'Scan Start
 100 FOR L=0 TO 31
