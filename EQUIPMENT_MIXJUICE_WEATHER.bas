@@ -122,6 +122,7 @@ NEW
 ' Display WeatherForecast to MatrixLED
 1 '√›∑÷Œ≥ 3/4
 
+10 Q=0
 ' Weather to MatrixLED
 100 FOR L=0 TO 7
 110  [L]=[10+L]
@@ -152,7 +153,7 @@ NEW
 ' Weather <- Temperature (Scroll)
 400 FOR S=0 TO 7
 410  FOR L=0 TO 7
-420   [L]=[L]>>1|[10+L]<<(7-S)
+420   [L]=[30+L]>>(1+S)|[10+L]<<(7-S)
 430  NEXT
 440  GOSUB 900
 450  WAIT 5
@@ -162,9 +163,10 @@ NEW
 ' Push Button Goto ADT7410
 500 IF BTN() LRUN 103
 
-' Loop or Loading
-600 IF TICK() < 60*60 GOTO 200
-610 LRUN 101
+' Loop or Reload(Q=10min.)
+600 IF TICK() > 60*60 Q=Q+1:CLT
+610 IF Q>9 LRUN 101
+620 GOTO 200
 
 ' [0] to MatrixLED
 900 Z=I2CW(C,D,1,#800,16) 
