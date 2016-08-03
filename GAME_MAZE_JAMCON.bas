@@ -1,0 +1,46 @@
+' L, T = BALL Left, Top
+' M, U = BALL Left, Top old
+
+1 'Ò²Û¹Þ-Ñ for JamCon
+10 CLS:CLV:CLT
+20 LC0,0:?"À²Ñ:"
+30 LC0,1
+40 LRUN 124
+
+'Scan Start
+100 FOR L=0 TO 31
+110 FOR T=0 TO 23
+120 IF SCR(L,T)=83 M=L:U=T:GOTO 150
+130 NEXT
+140 NEXT
+
+'AXIS -> OUT3(ANA7), OUT4(ANA8)
+150 OUT3,-1:OUT4,-1
+
+'Mainloop 
+'Read AXIS
+170 X=ANA(8)-512:X=X/10
+180 Y=ANA(7)-512:Y=Y/10*-1
+
+'Scan Wall
+200 IF L+X<L && SCR(L-1,T)<>143 L=L-1
+210 IF L+X>L && SCR(L+1,T)<>143 L=L+1
+220 IF T+Y<T && SCR(L,T-1)<>143 T=T-1
+230 IF T+Y>T && SCR(L,T+1)<>143 T=T+1
+240 WAIT 10-ABS(X/2+Y/2)
+
+'Move BALL
+250 IF L<>M||T<>U LC M,U:?" ";
+260 IF SCR(L,T)=71 LC 13,11:?" ºÞ-Ù !! ";:GOSUB 320:GOTO 10
+270 IF SCR(L,T)=88 LC 13,12:?" »ÞÝÈÝ ";:GOSUB 320:GOTO 10
+280 LC L,T:?"é";
+290 M=L:U=T
+
+'Time
+300 LC 4,0:?TICK()/60;
+
+310 WAIT 1:GOTO 170
+
+'Push to Start
+320 IF IN(1)=1 GOTO 320
+330 RETURN
