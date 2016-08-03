@@ -12,7 +12,7 @@
 240 LC 0,1:?"IN2(ANA2):Volume=";A;" ";V;"%"
 
 300 'LED -> OUT2(PWN2)
-310 L=A
+310 L=A/2
 320 PWM2,L
 330 LC 0,2:?"OUT2(PWN2):LED=";L
 
