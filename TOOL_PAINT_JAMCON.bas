@@ -2,7 +2,7 @@
 'L,T,M,U ... Cursor
 'O ... Old Ink (ASC)
 'N ... New Ink (ASC)
-'P ... Palette#
+'P ... Palette
 
 1 'IchigoJam Paint for JamCon
 
@@ -14,7 +14,7 @@
 
 'Palette
 40 LET [0],32,64,65,66,67,68,69,70,71,72,255
-50 FOR P=0 TO 10:LC 1+P,22:?CHR$([P]);:NEXT
+50 FOR I=0 TO 10:LC I,22:?CHR$([I]);:NEXT
 
 'Ink
 60 O=[0]
@@ -44,11 +44,9 @@
 
 'Ink Selector
 600 A=ANA(2)
-610 IF A<0 A=0
-620 V=(A*10/(1023-10))*10
-630 IF P=V/10 RTN
-640 P=V/10
-650 N=[P]
-660 FOR I=0 TO 10 LV I,23:?" ";:NEXT
-670 LC P,23:?"^";
-680 RTN
+610 V=(A*10/(1023-10))
+620 IF P=V RTN
+630 P=V:N=[P]
+640 FOR I=0 TO 10:LV I,23:?" ";:NEXT
+650 LC P,23:?"^";
+660 RTN
