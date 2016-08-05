@@ -9,7 +9,7 @@
 10 CLS:CLV
 
 'Setting JamCon
-20 V=30
+20 V=50
 30 OUT3,-1:OUT4,-1
 
 'Palette
@@ -17,12 +17,13 @@
 50 FOR I=0 TO 10:LC I,22:?CHR$([I]);:NEXT
 
 'Ink
-60 O=[0]
+60 P=-1:O=[0]
 
 'Mainloop 
 'Read AXIS
-100 X=ANA(8)-512:L=L+X/V
-110 Y=ANA(7)-512:T=T+Y/V*-1
+100 X=ANA(8)-512:L=L+(X/V)*-1
+110 Y=ANA(7)-512:T=T+(Y/V)
+'111 LC 15,22:?"X:";X;" Y:";Y;
 
 'Limit Cursor
 130 IF L<0 L=0
@@ -34,19 +35,18 @@
 170 GOSUB 600
 
 'Move Cursor
-200 IF L<>M||T<>U LC M,U:M=L:U=T:IF IN(1)=0 ?CHR$(N); ELSE ?CHR$(O);
-210 O=SCR(L,T)
+200 IF L<>M||T<>U LC M,U:M=L:U=T:IF IN(1)=0 ?CHR$(N); ELSE ?CHR$(O);:O=SCR(L,T)
 
 'Paint Ink or Cursor
-300 LC L,T:IF IN(1)=0 ?CHR$(N);:O=N ELSE ?"X"
+300 LC L,T:IF IN(1)=0 ?CHR$(N);:O=N ELSE ?"X";
 
 500 GOTO 100
 
 'Ink Selector
 600 A=ANA(2)
-610 V=(A*10/(1023-10))
-620 IF P=V RTN
-630 P=V:N=[P]
-640 FOR I=0 TO 10:LV I,23:?" ";:NEXT
+610 Z=(A*10/(1023-20))
+620 IF P=Z RTN
+630 P=Z:N=[P]
+640 FOR I=0 TO 10:LC I,23:?" ";:NEXT
 650 LC P,23:?"^";
 660 RTN
