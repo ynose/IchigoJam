@@ -13,11 +13,12 @@
 30 OUT3,-1:OUT4,-1
 
 'Palette
-40 LET [0],32,64,65,66,67,68,69,70,71,72,255
-50 FOR I=0 TO 10:LC I,22:?CHR$([I]);:NEXT
+40 LET [0],#20,#01,#02,#E4,#E5,#E7,#E8,#E9,#EE,#FB,#FF
+50 LC 10,22:?"";
+60 FOR I=1 TO 10:LC 10+I,22:?CHR$([I]);:NEXT
 
 'Ink
-60 P=-1:O=[0]
+70 P=-1:O=[0]
 
 'Mainloop 
 'Read AXIS
@@ -38,7 +39,7 @@
 200 IF L<>M||T<>U LC M,U:M=L:U=T:IF IN(1)=0 ?CHR$(N); ELSE ?CHR$(O);:O=SCR(L,T)
 
 'Paint Ink or Cursor
-300 LC L,T:IF IN(1)=0 ?CHR$(N);:O=N ELSE ?"X";
+300 LC L,T:IF IN(1)=0 ?CHR$(N);:O=N ELSE ?"";
 
 500 GOTO 100
 
@@ -47,6 +48,7 @@
 610 Z=(A*10/(1023-20))
 620 IF P=Z RTN
 630 P=Z:N=[P]
-640 FOR I=0 TO 10:LC I,23:?" ";:NEXT
-650 LC P,23:?"^";
-660 RTN
+640 LC 10,23:?"           ";
+650 LC 10+P,23:?"";
+660 PWM2,P*20
+670 RTN
