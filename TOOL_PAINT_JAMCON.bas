@@ -36,10 +36,10 @@
 170 GOSUB 600
 
 'Move Cursor
-200 IF L<>M||T<>U LC M,U:M=L:U=T:IF IN(1)=0 ?CHR$(N); ELSE ?CHR$(O);:O=SCR(L,T)
+200 IF L<>M||T<>U LC M,U:IF IN(1)=0 ?CHR$(N); ELSE ?CHR$(O);:O=SCR(L,T)
 
 'Paint Ink or Cursor
-300 LC L,T:IF IN(1)=0 ?CHR$(N);:O=N ELSE ?"";
+300 LC L,T:IF IN(1)=0&&L=M&&T=U ?CHR$(N);:O=N ELSE ?"X";:M=L:U=T
 
 500 GOTO 100
 
