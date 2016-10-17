@@ -5,17 +5,16 @@
 'F=I2C TempSensor Command
 'M=Display MatrixLED Address #800=[0]
 
+'N=Weather Update Minute
+'O=Sensor Update Minute
 'G=http get BaseURL
 'I=Array Loop Index 
 'W=Weather #
-
 'T=Temperature
 'A=Number [A|*]
 'B=Number [*|B]
 'J=JINKAN Sensor Value
 
-'N=Weather Update Minute
-'O=Sensor Update Minute
 'V=VIDEO
 'S=Bit Shift
 'L=Bit Shift Left ArrayIndex

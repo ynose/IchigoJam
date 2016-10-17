@@ -1,18 +1,12 @@
 'IoT for IchigoJam + MixJuice
 'IchigoJam BASIC 1.2.1
 
-'A=I2C Memory Address
-'C=I2C MatrixLED Address
-'D=I2C MatrixLED Command
-'E=I2C TempSensor Address
-'F=I2C TempSensor Command
-
 NEW
 
 'Init MatrixLED Pattern, Init I2C Device
-1 'IoT 0/3
+1 'IoT 0/2
 10 CLS:CLV
-20 N=0:O=0:M=#800
+20 M=#800:N=60:O=5
 30 V=0:'VIDEO
 
 100 '0..9

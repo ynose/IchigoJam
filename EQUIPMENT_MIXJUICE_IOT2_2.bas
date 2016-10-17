@@ -1,17 +1,10 @@
 ﻿'IoT for IchigoJam + MixJuice
 'IchigoJam BASIC 1.2.1
 
-'N=Weather Update Minute(n*60)
-'O=Sensor Update Minute(n*60)
-'V=VIDEO
-'S=Bit Shift
-'L=Bit Shift Left ArrayIndex
-'R=Bit Shift Right ArrayIndex
-
 NEW
 
 'Main Loop
-1 'IoT 3/3
+1 'IoT 2/2
 
 10 'Display On
 20 VIDEO 1
@@ -36,17 +29,19 @@ NEW
 320 GSB @MLED_OFF
 
 500 @LOOP
-520 IF N=>60 N=0:LRUN 1:'Weather Update
-510 IF O=>5  O=0:LRUN 2:'Sensor Update
+520 IF N=>60 OR O=>5 LRUN 1:'Weather,Sensor Update
 530 IF TICK() > 60*60 N=N+1:O=O+1:CLT
 540 WAIT 60:GOTO @LOOP
 
 'Subroutines ---------------------
-900 @MLED:'Display to MatrixLED
+'Display to MatrixLED
+900 @MLED
 902 IF I2CW(C,D,1,M,16)?"E" 
 903 RTN
 
-910 @MLED_OFF:'Clear MatrixLED
+'---------------------------------
+'Clear MatrixLED
+910 @MLED_OFF
 '911 FOR I=0 TO 7
 '912  [I]=0
 '913 NEXT
@@ -54,7 +49,9 @@ NEW
 914 GSB @MLED
 915 RTN
 
-920 @MLED_LR:'MatrixLED Scroll O->
+'---------------------------------
+'MatrixLED Scroll O->
+920 @MLED_LR
 921 FOR S=0 TO 7
 922  FOR I=0 TO 7
 923   [I]=[I+R]>>(1+S)|[I+L]<<(7-S)
@@ -64,7 +61,9 @@ NEW
 927 NEXT
 928 RTN
 
-930 @MLED_RL:'MatrixLED Scroll <-O 
+'---------------------------------
+'MatrixLED Scroll <-O
+930 @MLED_RL 
 931 FOR S=0 TO 7
 932  FOR I=0 TO 7
 933   [I]=[I+L]<<1|[I+R]>>(7-S)
@@ -74,4 +73,4 @@ NEW
 937 NEXT
 938 RTN
 
-SAVE 3
+SAVE 2
